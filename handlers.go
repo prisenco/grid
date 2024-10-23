@@ -33,7 +33,7 @@ func getRoom(w http.ResponseWriter, r *http.Request) {
 		rooms[id] = &g
 	}
 
-	gridTemplate := generateGrid(id)
+	gridTemplate := generatePage(id)
 
 	fmt.Fprint(w, gridTemplate)
 }
@@ -72,7 +72,7 @@ func updateRoom(w http.ResponseWriter, r *http.Request) {
 
 	rooms[id][x][y] = color
 
-	g := generateGrid(id)
+	g := generatePage(id)
 
 	fmt.Fprint(w, g)
 }

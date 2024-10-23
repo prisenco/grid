@@ -10,6 +10,10 @@ import (
 	"github.com/valyala/fasttemplate"
 )
 
+//go:embed tpl/page.html
+var gridPage string
+var gridPageTemplate *fasttemplate.Template
+
 //go:embed tpl/row.html
 var gridRow string
 var gridRowTemplate *fasttemplate.Template
@@ -19,6 +23,7 @@ var gridCell string
 var gridCellTemplate *fasttemplate.Template
 
 func init() {
+	gridPageTemplate = fasttemplate.New(gridPage, "{{", "}}")
 	gridRowTemplate = fasttemplate.New(gridRow, "{{", "}}")
 	gridCellTemplate = fasttemplate.New(gridCell, "{{", "}}")
 }
@@ -41,48 +46,18 @@ func generateGridRow(roomId int, y int) (r string) {
 	})
 }
 
-func generateGrid(roomId int) (t string) {
-	t = `
-	<style>
-		input[type="color"] {
-			width: 50px;
-			height: 50px;
-			border: none;
-			padding: 0;
-			background-color: #fff;
-		}
-	</style>
-	<script type="text/javascript">
-		async function updateCell(room, x, y, color) {
-		  const url = "/room/` + fmt.Sprint(roomId) + `";
-			const params = new URLSearchParams();
-			params.set("x", x);
-			params.set("y", y);
-			params.set("color", color);
-
-			try {
-				const response = await fetch(url, {
-					body: params,
-					method: "POST"
-				});
-				if (!response.ok) {
-					console.log (response.status);
-					return;
-				}
-				const newBody = await response.text();
-				document.body.innerHTML = newBody;
-			} catch (e) {
-				console.error(e.message);
-			}
-		}
-	</script>
-	`
+func generatePage(roomId int) (p string) {
+	grid := ""
 	for y := 0; y < gridHeight; y++ {
 		r := generateGridRow(roomId, y)
-		t += r
+		grid += r
 	}
 
-	return t
+	p = gridPageTemplate.ExecuteString(map[string]any{
+		"grid": grid,
+	})
+
+	return p
 }
 
 func generateRandomHex() string {

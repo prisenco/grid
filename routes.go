@@ -10,5 +10,7 @@ func buildRoutes() *http.ServeMux {
 	mux.HandleFunc("GET /room/{id}", getRoom)
 	mux.HandleFunc("POST /room/{id}", updateRoom)
 
+	mux.Handle("/", http.FileServer(http.Dir("./static")))
+
 	return mux
 }
