@@ -72,7 +72,7 @@ func updateRoom(w http.ResponseWriter, r *http.Request) {
 
 	rooms[id][x][y] = color
 
-	g := generatePage(id)
+	g := generateGrid(id)
 
 	fmt.Fprint(w, g)
 }

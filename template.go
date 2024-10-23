@@ -46,12 +46,17 @@ func generateGridRow(roomId int, y int) (r string) {
 	})
 }
 
-func generatePage(roomId int) (p string) {
-	grid := ""
+func generateGrid(roomId int) (g string) {
 	for y := 0; y < gridHeight; y++ {
 		r := generateGridRow(roomId, y)
-		grid += r
+		g += r
 	}
+
+	return g
+}
+
+func generatePage(roomId int) (p string) {
+	grid := generateGrid(roomId)
 
 	p = gridPageTemplate.ExecuteString(map[string]any{
 		"grid": grid,
