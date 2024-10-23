@@ -32,3 +32,5 @@ isolate just the viewable part of the grid and update that, otherwise request
 payload would be too big.
 5. If this were in production, it would need rate-limiting, timeouts,
 structured logging and all that good stuff.
+6. Error-handling fails entirely on updates because there's no good way to get
+errors back to the client browser.
