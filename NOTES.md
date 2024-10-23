@@ -34,3 +34,6 @@ payload would be too big.
 structured logging and all that good stuff.
 6. Error-handling fails entirely on updates because there's no good way to get
 errors back to the client browser.
+7. Limited the # of rooms to 9 just because otherwise, maps in go will grow as 
+big as they need to be, so it's best practice to have some kind of limit
+just in case.
